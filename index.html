@@ -906,7 +906,7 @@
           const name = this.value.trim();
           if (name !== '') {
             if (name.length < 2) {
-              showFieldError(this, nameError, 'Name must be at least 2 characters');
+              showFieldError(this, nameError, 'name must be at least 2 characters');
             } else if (!validateName(name)) {
               showFieldError(this, nameError, 'Name can only contain letters, spaces, and hyphens');
             }
