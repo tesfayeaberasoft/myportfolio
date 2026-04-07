@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tesfaye Abera · Full‑Stack Developer</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- CSS RESET & VARIABLES ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Light mode (default) */
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #2563eb;        /* primary brand — indigo/blue */
+      --accent-light: #3b82f6;
+      --accent-dark: #1d4ed8;
+      --border-light: #e2e8f0;
+      --shadow-sm: 0 4px 6px -2px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+      --shadow-lg: 0 20px 30px -10px rgba(0,0,0,0.08);
+      --progress-bg: #cbd5e1;
+      --nav-bg: rgba(255,255,255,0.8);
+      --footer-bg: #f1f5f9;
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    body.dark {
+      --bg-primary: #0b1120;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-dark: #2563eb;
+      --border-light: #334155;
+      --shadow-sm: 0 4px 6px -2px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --shadow-lg: 0 20px 30px -10px rgba(0,0,0,0.5);
+      --progress-bg: #334155;
+      --nav-bg: rgba(17,24,39,0.85);
+      --footer-bg: #0f172a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.2s;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---------- PRELOADER ---------- */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--border-light);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* ---------- SCROLL PROGRESS ---------- */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--accent);
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.1s;
+      box-shadow: 0 0 10px var(--accent-light);
+    }
+
+    /* ---------- NAVIGATION (sticky) ---------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 998;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+      padding: 12px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: color 0.2s;
+      font-size: 1rem;
+    }
+    .nav-link:hover { color: var(--accent); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #themeToggle {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      border-radius: 40px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    #themeToggle:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+
+    /* ---------- PROFILE IMAGE (new) ---------- */
+    .profile-image-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 10px;
+    }
+    .profile-pic {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--accent);
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+      background: white; /* fallback */
+    }
+    body.dark .profile-pic {
+      border-color: var(--accent-light);
+    }
+    .profile-pic:hover {
+      transform: scale(1.02);
+      border-color: var(--accent-light);
+    }
+    /* In and out (pulse/scale) animation for profile image */
+.profile-pic {
+  animation: inAndOut 3s ease-in-out infinite;
+}
+
+@keyframes inAndOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Optional: Pause animation on hover */
+.profile-pic:hover {
+  animation-play-state: paused;
+}
+
+    /* ---------- BUTTONS & CARDS ---------- */
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px -10px var(--accent);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+      height: 100%;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-light);
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section {
+      padding: 80px 0;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 48px;
+      text-align: center;
+      position: relative;
+      color: var(--text-primary);
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 4px;
+      background: var(--accent);
+      margin: 12px auto 0;
+      border-radius: 4px;
+    }
+
+    .bg-alt {
+      background-color: var(--bg-secondary);
+    }
+
+    /* hero */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      background: radial-gradient(circle at 10% 20%, rgba(37,99,235,0.03) 0%, transparent 40%);
+    }
+    .hero-content {
+      text-align: center;  /* better alignment with image */
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+    }
+    .highlight {
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent-light);
+    }
+    .hero-tagline {
+      font-size: 1.3rem;
+      margin: 24px 0 32px;
+      color: var(--text-secondary);
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+    .skill-icon {
+      font-size: 2.4rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .tag {
+      background: var(--accent-light);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .project-img {
+      height: 160px;
+      background: linear-gradient(145deg, var(--accent-light), var(--accent-dark));
+      border-radius: 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 160px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+    .overlay-btn {
+      background: white;
+      color: #0f172a;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0 8px;
+    }
+
+    /* contact form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 40px;
+    }
+    .contact-info i {
+      color: var(--accent);
+      width: 28px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      font-family: inherit;
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+    }
+
+    /* footer */
+    footer {
+      background: var(--footer-bg);
+      padding: 40px 0 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+    .social-icons a {
+      margin: 0 12px;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      transition: 0.2s;
+    }
+    .social-icons a:hover { color: var(--accent); }
+
+    /* back to top */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+      z-index: 99;
+      border: none;
+      cursor: pointer;
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* fade reveal */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* mobile menu */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: var(--bg-card);
+        width: 100%;
+        padding: 30px 0;
+        border-radius: 0 0 24px 24px;
+        box-shadow: var(--shadow-lg);
+        transition: 0.3s;
+        border: 1px solid var(--border-light);
+        gap: 20px;
+        backdrop-filter: blur(12px);
+      }
+      .nav-menu.active {
+        left: 0;
+      }
+      .hamburger {
+        display: block;
+      }
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .profile-pic {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body class="light">
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- STICKY NAVIGATION -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">Tesfaye A.</a>
+      <div class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Dark mode toggle"><i class="fas fa-moon"></i></button>
+        <div class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO SECTION with profile image right after nav, before name -->
+    <section id="home" class="hero">
+      <div class="container hero-content fade-in visible">
+        <!-- PROFILE IMAGE placed exactly after nav, before name -->
+        <div class="profile-image-wrapper">
+          <!-- Using the exact image name provided. Ensure the image is in the same folder, or update path. -->
+          <img src="img/5963023467697343792.jpg" alt="Tesfaye Abera Lingane" class="profile-pic" loading="eager">
+        </div>
+        
+        <h1>Hi, I'm <span class="highlight">Tesfaye Abera</span><br>Full‑Stack Developer</h1>
+        <p class="hero-tagline">Software Engineering student @ Wachemo University — crafting robust web solutions.</p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View Projects</a>
+          <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Hire Me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT + BIO (visual separation) -->
+    <section id="about" class="bg-alt">
+      <div class="container fade-in">
+        <h2 class="section-title">About Me</h2>
+        <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center;">
+          <i class="fas fa-user-astronaut" style="font-size: 3rem; color: var(--accent); margin-bottom: 20px;"></i>
+          <p style="font-size: 1.2rem; margin-bottom: 16px;"><strong>Tesfaye Abera Lingane</strong></p>
+          <p style="color: var(--text-secondary);">Software Engineering Student at Wachemo University. I believe <em>"The technology is very interesting"</em> — that curiosity drives me to build clean, impactful web experiences. Full‑stack developer with a passion for React, PHP, and modern tooling.</p>
+          <div style="margin-top: 28px;">
+            <span class="tag"><i class="fas fa-map-pin"></i> Ethiopia</span>
+            <span class="tag"><i class="fas fa-graduation-cap"></i> Wachemo Univ.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS (Card-based) -->
+    <section id="skills">
+      <div class="container fade-in">
+        <h2 class="section-title">Tech Stack & Tools</h2>
+        <div class="skills-grid">
+          <!-- Frontend Card -->
+          <div class="card">
+            <div class="skill-icon"><i class="fab fa-react"></i> <i class="fab fa-html5"></i></div>
+            <h3>Frontend</h3>
+            <p style="color: var(--text-muted); margin: 10px 0;">Modern, responsive interfaces</p>
+            <div class="skill-tags">
+              <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
+              <span class="tag">React.js</span>
+            </div>
+          </div>
+          <!-- Backend Card -->
+          <div class="card">
+            <div class="skill-icon"><i class="fas fa-server"></i> <i class="fas fa-database"></i></div>
+            <h3>Backend</h3>
+            <p style="color: var(--text-muted);">Server-side logic & databases</p>
+            <div class="skill-tags">
+              <span class="tag">PHP</span><span class="tag">MySQL</span>
+            </div>
+          </div>
+          <!-- Tools Card -->
+          <div class="card">
+            <div class="skill-icon"><i class="fab fa-git-alt"></i> <i class="fas fa-code"></i></div>
+            <h3>Dev Tools</h3>
+            <p style="color: var(--text-muted);">Version control & environment</p>
+            <div class="skill-tags">
+              <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">VS Code</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SHOWCASE -->
+    <section id="projects" class="bg-alt">
+      <div class="container fade-in">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <div class="card project-card">
+            <div class="project-img"><i class="fas fa-book-open"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn"><i class="fab fa-github"></i> Code</a>
+              <a href="#" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <h3>Digital Library Management</h3>
+            <p style="color: var(--text-muted);">Full‑stack system for cataloging, borrowing, and managing library resources.</p>
+            <div class="project-tags">
+              <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">JavaScript</span>
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="card project-card">
+            <div class="project-img"><i class="fas fa-shopping-cart"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn"><i class="fab fa-github"></i> Code</a>
+              <a href="#" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <h3>Shopping List Item</h3>
+            <p style="color: var(--text-muted);">Interactive React app to manage grocery lists with real‑time updates.</p>
+            <div class="project-tags">
+              <span class="tag">React</span><span class="tag">CSS</span><span class="tag">localStorage</span>
+            </div>
+          </div>
+          <!-- Project 3 -->
+          <div class="card project-card">
+            <div class="project-img"><i class="fas fa-building"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="overlay-btn"><i class="fab fa-github"></i> Code</a>
+              <a href="#" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <h3>Real Estate Listing Platform</h3>
+            <p style="color: var(--text-muted);">Property listings with search, filters, and agent contact.</p>
+            <div class="project-tags">
+              <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <!-- CONTACT SECTION -->
+<section id="contact">
+  <div class="container fade-in">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-info card">
+        <h3 style="margin-bottom: 24px;"><i class="fas fa-address-card"></i> Contact info</h3>
+        <p style="margin: 16px 0;"><i class="fas fa-envelope"></i> tesfayeaberalingane@gmail.com</p>
+        <p style="margin: 16px 0;"><i class="fas fa-phone-alt"></i> +251 97 909 3522</p>
+        <p style="margin: 16px 0;"><i class="fas fa-map-marker-alt"></i> Wachemo University, Ethiopia</p>
+        <div style="margin-top: 32px;">
+          <p><i class="fas fa-code-branch"></i> Let's build something great.</p>
+        </div>
+      </div>
+      <div class="card">
+        <form id="contactForm" action="save_contact.php" method="post">
+          <div class="form-group">
+            <input type="text" name="name" id="name" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <input type="email" name="email" id="email" placeholder="Email Address" required>
+            <div id="emailError" style="color: #ef4444; font-size: 0.8rem; margin-top: 4px; display: none;"></div>
+          </div>
+          <div class="form-group">
+            <textarea name="message" id="message" rows="4" placeholder="Your message..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+          <div id="formResponse" style="margin-top: 20px; padding: 12px; border-radius: 8px; display: none;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="social-icons" style="text-align: center;">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="mailto:tesfayeaberalingane@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p style="text-align: center; color: var(--text-muted); margin-top: 20px;">© 2025 Tesfaye Abera Lingane. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+<script>
+    (function() {
+      "use strict";
+
+      // ----- PRELOADER -----
+      const preloader = document.getElementById('preloader');
+      window.addEventListener('load', () => {
+        preloader.classList.add('fade-out');
+        setTimeout(() => preloader.style.display = 'none', 700);
+      });
+
+      // ----- DARK / LIGHT MODE (localStorage) -----
+      const body = document.body;
+      const themeToggle = document.getElementById('themeToggle');
+      const icon = themeToggle.querySelector('i');
+      
+      const currentTheme = localStorage.getItem('portfolio-theme');
+      if (currentTheme === 'dark') {
+        body.classList.add('dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+      } else {
+        body.classList.remove('dark');
+        icon.classList.replace('fa-sun', 'fa-moon');
+      }
+
+      themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        if (body.classList.contains('dark')) {
+          icon.classList.replace('fa-moon', 'fa-sun');
+          localStorage.setItem('portfolio-theme', 'dark');
+        } else {
+          icon.classList.replace('fa-sun', 'fa-moon');
+          localStorage.setItem('portfolio-theme', 'light');
+        }
+      });
+
+      // ----- MOBILE MENU TOGGLE -----
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        const iconH = hamburger.querySelector('i');
+        iconH.classList.toggle('fa-bars');
+        iconH.classList.toggle('fa-times');
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+          hamburger.querySelector('i').classList.replace('fa-times', 'fa-bars');
+        });
+      });
+
+      // ----- SCROLL PROGRESS -----
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+
+      // ----- BACK TO TOP -----
+      const backBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+          backBtn.classList.add('show');
+        } else {
+          backBtn.classList.remove('show');
+        }
+      });
+      backBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // ----- FADE-IN ON SCROLL (Intersection Observer) -----
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+      fadeElements.forEach(el => observer.observe(el));
+      
+      // Ensure hero is visible initially
+      document.querySelector('.hero .fade-in').classList.add('visible');
+
+      // ----- VALIDATION FUNCTIONS -----
+      function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+      
+      function validateName(name) {
+        // Name should be at least 2 characters, only letters, spaces, and hyphens
+        const nameRegex = /^[a-zA-Z\s\-]{2,50}$/;
+        return nameRegex.test(name);
+      }
+      
+      function showFieldError(input, errorElement, message) {
+        if (errorElement) {
+          errorElement.textContent = '❌ ' + message;
+          errorElement.style.display = 'block';
+        }
+        input.style.borderColor = '#ef4444';
+      }
+      
+      function clearFieldError(input, errorElement) {
+        if (errorElement) {
+          errorElement.style.display = 'none';
+        }
+        input.style.borderColor = '';
+      }
+      
+      function setFieldSuccess(input) {
+        input.style.borderColor = '#10b981';
+      }
+
+      // ----- NAME VALIDATION -----
+      const nameInput = document.getElementById('name');
+      const nameError = document.getElementById('nameError');
+      
+      if (nameInput && nameError) {
+        nameInput.addEventListener('input', function() {
+          const name = this.value.trim();
+          if (name === '') {
+            clearFieldError(this, nameError);
+            this.style.borderColor = '';
+          } else if (name.length < 2) {
+            showFieldError(this, nameError, 'Name must be at least 2 characters');
+          } else if (name.length > 50) {
+            showFieldError(this, nameError, 'Name must be less than 50 characters');
+          } else if (!validateName(name)) {
+            showFieldError(this, nameError, 'Name can only contain letters, spaces, and hyphens');
+          } else {
+            clearFieldError(this, nameError);
+            setFieldSuccess(this);
+          }
+        });
+        
+        nameInput.addEventListener('blur', function() {
+          const name = this.value.trim();
+          if (name !== '') {
+            if (name.length < 2) {
+              showFieldError(this, nameError, 'Name must be at least 2 characters');
+            } else if (!validateName(name)) {
+              showFieldError(this, nameError, 'Name can only contain letters, spaces, and hyphens');
+            }
+          }
+        });
+      }
+
+      // ----- EMAIL VALIDATION -----
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      
+      if (emailInput && emailError) {
+        emailInput.addEventListener('input', function() {
+          const email = this.value.trim();
+          if (email === '') {
+            clearFieldError(this, emailError);
+          } else if (!validateEmail(email)) {
+            showFieldError(this, emailError, 'Please enter a valid email address');
+          } else {
+            clearFieldError(this, emailError);
+            setFieldSuccess(this);
+          }
+        });
+        
+        emailInput.addEventListener('blur', function() {
+          const email = this.value.trim();
+          if (email !== '' && !validateEmail(email)) {
+            showFieldError(this, emailError, 'Please enter a valid email address');
+          }
+        });
+      }
+
+      // ----- MESSAGE VALIDATION -----
+      const messageInput = document.getElementById('message');
+      const messageError = document.getElementById('messageError');
+      
+      if (messageInput && messageError) {
+        messageInput.addEventListener('input', function() {
+          const message = this.value.trim();
+          if (message === '') {
+            clearFieldError(this, messageError);
+          } else if (message.length < 10) {
+            showFieldError(this, messageError, 'Message must be at least 10 characters');
+          } else if (message.length > 1000) {
+            showFieldError(this, messageError, 'Message must be less than 1000 characters');
+          } else {
+            clearFieldError(this, messageError);
+            setFieldSuccess(this);
+          }
+        });
+        
+        messageInput.addEventListener('blur', function() {
+          const message = this.value.trim();
+          if (message !== '' && message.length < 10) {
+            showFieldError(this, messageError, 'Message must be at least 10 characters');
+          }
+        });
+      }
+
+      // ----- FORM RESPONSE FUNCTION -----
+      function showResponse(message, isSuccess) {
+        const responseDiv = document.getElementById('formResponse');
+        if (!responseDiv) return;
+        
+        responseDiv.textContent = message;
+        responseDiv.style.display = 'block';
+        
+        if (isSuccess) {
+          responseDiv.style.backgroundColor = '#10b981';
+          responseDiv.style.color = 'white';
+          responseDiv.style.border = '1px solid #059669';
+        } else {
+          responseDiv.style.backgroundColor = '#ef4444';
+          responseDiv.style.color = 'white';
+          responseDiv.style.border = '1px solid #dc2626';
+        }
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          responseDiv.style.display = 'none';
+        }, 5000);
+      }
+
+      // ----- CONTACT FORM SUBMISSION -----
+      const form = document.getElementById('contactForm');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          // Get form elements
+          const nameInput = document.getElementById('name');
+          const emailInput = document.getElementById('email');
+          const messageInput = document.getElementById('message');
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const nameError = document.getElementById('nameError');
+          const emailError = document.getElementById('emailError');
+          const messageError = document.getElementById('messageError');
+          
+          let isValid = true;
+          
+          // Validate name
+          const name = nameInput.value.trim();
+          if (name === '') {
+            showFieldError(nameInput, nameError, 'Name is required');
+            isValid = false;
+          } else if (name.length < 2) {
+            showFieldError(nameInput, nameError, 'Name must be at least 2 characters');
+            isValid = false;
+          } else if (!validateName(name)) {
+            showFieldError(nameInput, nameError, 'Name can only contain letters, spaces, and hyphens');
+            isValid = false;
+          }
+          
+          // Validate email
+          const email = emailInput.value.trim();
+          if (email === '') {
+            showFieldError(emailInput, emailError, 'Email is required');
+            isValid = false;
+          } else if (!validateEmail(email)) {
+            showFieldError(emailInput, emailError, 'Please enter a valid email address');
+            isValid = false;
+          }
+          
+          // Validate message
+          const message = messageInput.value.trim();
+          if (message === '') {
+            showFieldError(messageInput, messageError, 'Message is required');
+            isValid = false;
+          } else if (message.length < 10) {
+            showFieldError(messageInput, messageError, 'Message must be at least 10 characters');
+            isValid = false;
+          }
+          
+          if (!isValid) {
+            showResponse('Please fix the errors above', false);
+            return;
+          }
+          
+          // Create form data
+          const formData = new FormData(form);
+          
+          // Show loading state
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+          submitBtn.disabled = true;
+          
+          try {
+            const response = await fetch('save_contact.php', {
+              method: 'POST',
+              body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+              showResponse('✅ ' + result.message, true);
+              form.reset();
+              // Clear all success borders
+              nameInput.style.borderColor = '';
+              emailInput.style.borderColor = '';
+              messageInput.style.borderColor = '';
+              // Hide all error messages
+              if (nameError) nameError.style.display = 'none';
+              if (emailError) emailError.style.display = 'none';
+              if (messageError) messageError.style.display = 'none';
+            } else {
+              showResponse('❌ ' + result.message, false);
+            }
+          } catch (error) {
+            console.error('Form submission error:', error);
+            showResponse('Network error. Please check your connection and try again.', false);
+          } finally {
+            // Restore button
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+          }
+        });
+      }
+
+      // ----- SMOOTH SCROLL FOR ANCHOR LINKS -----
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === "#" || href === "") return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+    })();
+  </script>
+  
+</body>
+</html>
