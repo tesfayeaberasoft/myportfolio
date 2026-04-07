@@ -2,10 +2,10 @@
 // save_contact.php
 
 // Database configuration
-$host = 'localhost';
-$dbname = 'portfolio_contacts';
-$username = 'root';      // Change to your MySQL username
-$password = '';          // Change to your MySQL password
+$host = 'sql304.infinityfree.com';
+$dbname = 'if0_41634806_portfolio_contacts';
+$username = 'if0_41634806';      // Change to your MySQL username
+$password = 'IRyKSnQLNk';          // Change to your MySQL password
 
 // Set response header for JSON
 header('Content-Type: application/json');
