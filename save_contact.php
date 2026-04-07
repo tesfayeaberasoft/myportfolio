@@ -8,6 +8,7 @@ $username = 'if0_41634806';      // Change to your MySQL username
 $password = 'IRyKSnQLNk';          // Change to your MySQL password
 
 // Set response header for JSON
+header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
 // Check if request is POST
@@ -73,7 +74,7 @@ $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 try {
     // Create database connection
-    $conn = new mysqli($host, $username, $password, $dbname);
+    $conn = new mysqli("https://dash.infinityfree.com/",$host, $username, $password, $dbname);
     
     // Check connection
     if ($conn->connect_error) {
